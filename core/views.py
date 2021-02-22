@@ -8,7 +8,7 @@ from .models import Todo
 
 
 
-class CreateListTodos(APIView):
+class CreateListTodo(APIView):
     def post(self,request):
         if request.method == "POST":
             form = CreateUpdateTodo(data=request.data)
@@ -27,11 +27,7 @@ class CreateListTodos(APIView):
                         "created_date":todo.createDate},
                         status=status.HTTP_201_CREATED
                         )
-                except Exception as e:
-                    print("*"*20)
-                    print(e)
-                    print("*"*20)
-
+                except:
                     return Response({"error":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
             else:
@@ -42,32 +38,23 @@ class CreateListTodos(APIView):
             todos = Todo.objects.all()
             serialized_todos = DisplayTodoSerialzer(todos, many=True)
             return Response({"todos": serialized_todos.data}, status=status.HTTP_200_OK)
-        except Exception as e:
-            print("*"*20)
-            print(e)
-            print("*"*20)
+        except:
             return Response({"error": "something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-class GetUpdateDeleteSearch(APIView):
+class GetUpdateDeleteTodo(APIView):
 
     def get(self, request, todo_id):
         try:
             todo = Todo.objects.get(id=todo_id)
             return Response({"book":DisplayTodoSerialzer(todo).data}, status=status.HTTP_200_OK)
         
-        except Exception as e:
-            print("***************")
-            print(e)
-            print("*****************")
+        except:
             return Response({"error":"something went wrong"}, status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, todo_id):
         try:
             todo = Todo.objects.get(id=todo_id)
         except Exception as e:
-            print("**********************************")
-            print(e)
-            print("**********************************")
             return Response({"error":"something went wrong"}, status=status.HTTP_404_NOT_FOUND)
 
         form = CreateUpdateTodo(data=request.data)
@@ -83,9 +70,19 @@ class GetUpdateDeleteSearch(APIView):
                     "message":"Todo has been updated successfully"},
                     status=status.HTTP_200_OK
                     )
+        except:
+            return Response({"error":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def delete(self, request, todo_id):
+        try:
+            todo = Todo.objects.get(id=todo_id)
         except Exception as e:
-            print("***************************")
+            print("***************************************")
             print(e)
-            print("***************************")
+            print("***************************************")
 
             return Response({"error":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        todo.delete()
+        return Response({"message":"Todo deleted successfully"}, status=status.HTTP_200_OK)
+

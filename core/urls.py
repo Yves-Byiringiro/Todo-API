@@ -4,6 +4,7 @@ from .views import *
 
 urlpatterns = [
 
-    path('todos/', CreateListTodos.as_view()),
-    path('todo/details/<int:todo_id>/', GetUpdateDeleteSearch.as_view())
+    path('todos/', CreateListTodo.as_view()),
+    path('todo/details/<int:todo_id>/', GetUpdateDeleteTodo.as_view())
+
 ]
