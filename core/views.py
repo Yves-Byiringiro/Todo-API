@@ -7,7 +7,7 @@ from .models import Todo
 
 
 
-
+""" From here you can create a todo and get all todos"""
 class CreateListTodo(APIView):
     def post(self,request):
         if request.method == "POST":
@@ -41,6 +41,8 @@ class CreateListTodo(APIView):
         except:
             return Response({"error": "something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+""" From here you can get a single todo details, update and delete it """
 class GetUpdateDeleteTodo(APIView):
 
     def get(self, request, todo_id):
@@ -76,13 +78,20 @@ class GetUpdateDeleteTodo(APIView):
     def delete(self, request, todo_id):
         try:
             todo = Todo.objects.get(id=todo_id)
-        except Exception as e:
-            print("***************************************")
-            print(e)
-            print("***************************************")
 
+            todo.delete()
+            return Response({"message":"Todo deleted successfully"}, status=status.HTTP_200_OK)
+
+        except Exception as e:
             return Response({"error":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        todo.delete()
-        return Response({"message":"Todo deleted successfully"}, status=status.HTTP_200_OK)
 
+
+""" from here you can search any todo by name"""
+class SearchTodo(APIView):
+    def get(self, request, todo_q):
+        try:
+            todos = Todo.objects.filter(title=todo_q)
+            return Response({"todos":DisplayTodoSerialzer(todos, many=True).data}, status=status.HTTP_200_OK)
+        except:
+            return Response({"error":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
