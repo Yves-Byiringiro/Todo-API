@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.response import Response
 from .serializers import *
 from .models import Todo
-from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -12,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 class CreateListTodos(APIView):
     def post(self,request):
         if request.method == "POST":
-            form = RegisterTodo(data=request.data)
+            form = CreateUpdateTodo(data=request.data)
             if form.is_valid():
                 try:
                     title = form.data.get('title')
@@ -51,7 +50,6 @@ class CreateListTodos(APIView):
 
 class GetUpdateDeleteSearch(APIView):
 
-    @csrf_exempt 
     def get(self, request, todo_id):
         try:
             todo = Todo.objects.get(id=todo_id)
@@ -63,4 +61,31 @@ class GetUpdateDeleteSearch(APIView):
             print("*****************")
             return Response({"error":"something went wrong"}, status=status.HTTP_404_NOT_FOUND)
 
+    def put(self, request, todo_id):
+        try:
+            todo = Todo.objects.get(id=todo_id)
+        except Exception as e:
+            print("**********************************")
+            print(e)
+            print("**********************************")
+            return Response({"error":"something went wrong"}, status=status.HTTP_404_NOT_FOUND)
 
+        form = CreateUpdateTodo(data=request.data)
+        try:
+            if form.is_valid():
+                todo.title =  form.data.get('title')
+                todo.description =  form.data.get('description')
+                todo.priority = form.data.get('priority')
+                todo.modifiedDate = timezone.now()
+                todo.save()
+                return Response(
+                    {"todo":DisplayTodoSerialzer(todo).data,
+                    "message":"Todo has been updated successfully"},
+                    status=status.HTTP_200_OK
+                    )
+        except Exception as e:
+            print("***************************")
+            print(e)
+            print("***************************")
+
+            return Response({"error":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -9,7 +9,7 @@ class DisplayTodoSerialzer(serializers.ModelSerializer):
         model = Todo
         fields =  '__all__'
 
-class RegisterTodo(serializers.Serializer):
+class CreateUpdateTodo(serializers.Serializer):
     title = serializers.CharField()
     description = serializers.CharField()
     priority = serializers.CharField()
