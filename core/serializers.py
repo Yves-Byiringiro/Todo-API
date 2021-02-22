@@ -14,4 +14,5 @@ class RegisterTodo(serializers.Serializer):
     description = serializers.CharField()
     priority = serializers.CharField()
 
-    
+
+

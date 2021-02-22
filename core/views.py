@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from .serializers import *
 from .models import Todo
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -25,7 +26,7 @@ class CreateListTodos(APIView):
                         "title":todo.title,
                         "description":todo.description,
                         "created_date":todo.createDate},
-                        status=status.HTTP_200_OK
+                        status=status.HTTP_201_CREATED
                         )
                 except Exception as e:
                     print("*"*20)
@@ -47,4 +48,19 @@ class CreateListTodos(APIView):
             print(e)
             print("*"*20)
             return Response({"error": "something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class GetUpdateDeleteSearch(APIView):
+
+    @csrf_exempt 
+    def get(self, request, todo_id):
+        try:
+            todo = Todo.objects.get(id=todo_id)
+            return Response({"book":DisplayTodoSerialzer(todo).data}, status=status.HTTP_200_OK)
+        
+        except Exception as e:
+            print("***************")
+            print(e)
+            print("*****************")
+            return Response({"error":"something went wrong"}, status=status.HTTP_404_NOT_FOUND)
+
 
