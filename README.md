@@ -25,7 +25,7 @@ You will also need to run the following codes to start using project
 
 ### Third Step
 
-To start using the project open your browser at type: [http://127.0.0.1:8000/](http://127.0.0.1:8000/) to view it in the browser.
+To start using the project open your browser and type: [http://127.0.0.1:8000/](http://127.0.0.1:8000/) to view it in the browser.
 
 After you can start navigate through different endpoints
 
