@@ -9,18 +9,18 @@ Before run this project in your local machine, you have to install Python3, pip,
 
 After that you can switch to  the project directory, and run the following commands:
 
-1. python3 -m venv env             // for creating your virtual environment
-2. source env/bin/activate              // to activate your virtual environment
-3. pip install -r requirements.txt      // to install the packages used in the project contained in   requirements.txt file
+1. python3 -m venv env                 <!--- for creating your virtual environment --->
+2. source env/bin/activate             <!--- to activate your virtual environment --->
+3. pip install -r requirements.txt     <!--- to install the packages used in the project contained in   requirements.txt file --->
 
 ### Second Step
 
 You will also need to run the following codes to start using project
 
-1. python manage.py makemigrations             // creating tables 
-2. python manage.py migrate                    // migrate tables in database
-3. python manage.py createsuperuser            // to create the superuser account
-4. python manage.py runserver                 <!---  to run the project at local server --->
+1. python manage.py makemigrations             <!--- creating tables  ---> 
+2. python manage.py migrate                    <!--- to migrate tables in database --->
+3. python manage.py createsuperuser            <!--  to create the superuser account --->
+4. python manage.py runserver                  <!--- to run the project at local server --->
 
 
 ### Third Step
