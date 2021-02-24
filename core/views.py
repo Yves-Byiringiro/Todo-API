@@ -27,7 +27,9 @@ class CreateListTodo(APIView):
                         "created_date":todo.createDate},
                         status=status.HTTP_201_CREATED
                         )
-                except:
+                except :
+                 
+
                     return Response({"error":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
             else:
@@ -93,5 +95,5 @@ class SearchTodo(APIView):
         try:
             todos = Todo.objects.filter(title=todo_q)
             return Response({"todos":DisplayTodoSerialzer(todos, many=True).data}, status=status.HTTP_200_OK)
-        except:
+        except :
             return Response({"error":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
